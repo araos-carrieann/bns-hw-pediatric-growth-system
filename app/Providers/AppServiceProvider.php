@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Models\ChildHealthRecord;
+use App\Models\ChildPersonalInformation;
 use App\Models\HealthWorker;
 use Illuminate\Support\Facades\View;
 use App\Models\Municipality;
@@ -21,13 +23,16 @@ class AppServiceProvider extends ServiceProvider
      */
 
 
-    public function boot()
-    {
-        $muni = Municipality::get(['name', 'id']);
-        View::share('muni', $muni);
-        
-        $adminAccounts = HealthWorker::where('role', 'admin')->get();
-        View::share('adminAccounts', $adminAccounts);
-    }
+     public function boot()
+     {
+         $muni = Municipality::get(['name', 'id']);
+         View::share('muni', $muni);
+
+         $barangay = Municipality::get(['name', 'id']);
+         View::share('barangay', $barangay);
+ 
+
+     }
 
 }
+

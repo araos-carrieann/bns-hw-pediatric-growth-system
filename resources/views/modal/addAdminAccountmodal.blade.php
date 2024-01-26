@@ -2,7 +2,7 @@
     aria-labelledby="addAdminAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="POST" action="{{ route('HealthWorker.store') }}">
+            <form method="POST" action="{{ route('HealthWorker.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="addAdminAccountModalLabel">Add Admin Account</h5>
@@ -12,11 +12,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="hidden" name="role" value="bhw-user">
+                        <input type="hidden" name="status" value="active">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="role" value="admin">
                     </div>
                     <div class="form-group">
                         <label for="profile_picture">Profile Picture</label>
-                        <input type="file" class="form-control-file" id="profilePicture" name="profile_picture">
+                        <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name</label>
@@ -31,8 +34,9 @@
                         <input type="text" class="form-control" id="middle_name" name="middle_name">
                     </div>
 
-                    <div>
-                        <select id="muni-dd" class="form-control custom-dropdown" name="municipality">
+                    <div >
+                        <label for="muni-dd">Municipality</label>
+                        <select id="muni-dd" class="custom-dropdown form-control" name="municipality">
                             <option value="">Select Municipality</option>
                             @foreach($muni as $data)
                             <option value="{{$data->id}}">{{$data->name}}</option>
@@ -40,14 +44,17 @@
                         </select>
                     </div>
 
-                    <div>
+                    <div >
+                        <label for="brgy-dd">Barangay</label>
                         <select id="brgy-dd" class="form-control" name="barangay"></select>
                     </div>
 
-                    <div>
+                    <div >
                         <label for="sitio">Sitio:</label>
-                        <input type="text" id="sitio" name="sitio"><br><br>
+                        <input type="text" class="form-control" id="sitio" name="sitio">
                     </div>
+
+
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email">
@@ -78,7 +85,7 @@
                                 success: function (data) {
                                     $('#brgy-dd').empty();
                                     $.each(data.barangays, function (key, value) {
-                                        $('#brgy-dd').append('<option value="' + value + '">' + value + '</option>');
+                                        $('#brgy-dd').append('<option value="' + value.name + '">' + value.name + '</option>');
                                     });
                                 },
                                 error: function (xhr, status, error) {
@@ -91,7 +98,6 @@
                     });
                 });
             </script>
-
         </div>
     </div>
 </div>

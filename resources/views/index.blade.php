@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <!-- Google Fonts Link For Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
-        <link rel="stylesheet" href="{{url('css/indexStyle.css')}}">
-        
+    <link rel="stylesheet" href="../assets/css/indexStyle.css">
+    <script src="../assets/js/index.js" defer></script>
 
 </head>
 
@@ -18,14 +21,12 @@
             <span class="hamburger-btn material-symbols-rounded">menu</span>
             <a href="#" class="logo">
                 <img src="/images/logo.jpg" alt="logo">
-                <h2>BHW</h2>
             </a>
             <ul class="links">
                 <span class="close-btn material-symbols-rounded">close</span>
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Portfolio</a></li>
                 <li><a href="#">About us</a></li>
-                <li><a href="#">Contact us</a></li>
+                <li><a href="#">Community Project</a></li>
             </ul>
             <button class="login-btn">LOG IN</button>
         </nav>
@@ -44,7 +45,7 @@
                     @csrf <!-- Add CSRF token for Laravel forms -->
 
                     <div class="input-field">
-                        <input type="text" name="email" id="email" required>
+                        <input type="email" name="email" id="email" required>
                         <label>Email</label>
                     </div>
                     <div class="input-field">
@@ -113,10 +114,11 @@
 
             <div class="footer-icons">
 
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-github"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+
 
             </div>
 

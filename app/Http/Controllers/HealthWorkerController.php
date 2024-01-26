@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Municipality;
@@ -19,27 +17,16 @@ class HealthWorkerController extends Controller
         $this->worker = new HealthWorker();
     }
 
-    public function index()
-    {
-        $workers = HealthWorker::all();
-
-        Log::info('Retrieved all health workers');
-
-        return view('workers.index', ['workers' => $workers]);
-    }
-
-    public function create()
-    {
-        Log::info('Viewed create form for health worker');
-
-        return view('workers.create');
-    }
-
     public function store(Request $request)
     {
         // $healthWorkerId = session('userId'); // Retrieve health worker ID from the session
 
-        $data = $request->all();
+        $data = $request->except('_token'); // Exclude _token from data
+        $pictureName = time() . $request->file('profile_picture')->getClientOriginalName();
+        $path = $request->file('profile_picture')->storeAs('public/bhwProfile', $pictureName, 'local');
+        $data["profile_picture"] = '/storage/bhwProfile/' . $pictureName;
+        
+    
         $municipality = Municipality::where('id', $data['municipality'])->value('name');
         $data['municipality'] = $municipality; // Replace municipality ID with its name
 
@@ -67,7 +54,7 @@ class HealthWorkerController extends Controller
 
         $worker = HealthWorker::where('email', $credentials['email'])->first();
 
-        if ($worker && Hash::check($credentials['password'], $worker->password)) {
+        if ($worker && $worker->status === 'active' && Hash::check($credentials['password'], $worker->password)) {
             // Set session data
             session(['userId' => $worker->id]);
 
@@ -87,66 +74,25 @@ class HealthWorkerController extends Controller
         }
     }
 
-
-
-    public function showAdminAccounts()
+    public function deleteAccount($id)
     {
-        $adminAccounts = HealthWorker::where('role', 'admin')
-            ->select('role', 'id', 'profile_picture', 'last_name', 'first_name', 'middle_name', 'municipality', 'barangay', 'sitio', 'email', 'contact_number')
-            ->get();
+        $worker = $this->worker->find($id);
 
-        return view('/superAdminAccount', ['adminAccounts' => $adminAccounts]);
+        if ($worker) {
+            $worker->status = 'deactivated'; // Set the status to 'deactivated'
+
+            $worker->save();
+        }
+
+        return redirect()->back()->with('success', 'Data deleted successfully!');
     }
-
-
-
-
-
-    public function edit($id)
-    {
-        $response['worker'] = $this->worker->find($id);
-        return view('workers.edit')->with($response);
-    }
-
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            // Add validation rules if needed for updating worker information
-        ]);
+        $worker = HealthWorker::findOrFail($id);
 
-        $worker = $this->worker->find($id);
+        $worker->update($request->all());
 
-        $workerData = $request->only([
-            'role',
-            'worker_id',
-            'profile_picture',
-            'last_name',
-            'first_name',
-            'middle_name',
-            'email',
-            'contact_number',
-            'password',
-        ]);
-
-        $workerData['password'] = bcrypt($workerData['password']); // Hashing the password
-
-        $worker->update($workerData);
-        return redirect('worker');
-    }
-
-    public function destroy($id)
-    {
-        $worker = $this->worker->find($id);
-        $worker->delete();
-        return redirect('worker');
+        Log::info('Updated worker record with ID: ' . $id);
+        return redirect()->back()->with('success', ' successfully!');
     }
 }
-
-
-
-
-
-
-
-
-

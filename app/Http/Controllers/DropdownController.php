@@ -12,12 +12,10 @@ class DropdownController extends Controller
         return view('/bhwInputData')->with('muni', $muni);
     }
 
-
     public function getBrgy($municipalityId)
-{
-    $barangays = Barangay::where('municipality_id', $municipalityId)->pluck('name');
-
-    return response()->json(['barangays' => $barangays]);
-}
-
+    {
+        $barangays = Barangay::where('municipality_id', $municipalityId)->get(['id', 'name']);
+    
+        return response()->json(['barangays' => $barangays]);
+    }
 }
