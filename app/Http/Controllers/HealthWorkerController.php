@@ -46,33 +46,6 @@ class HealthWorkerController extends Controller
         }
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-
-        \Log::info('Received login attempt with email: ' . $credentials['email']);
-
-        $worker = HealthWorker::where('email', $credentials['email'])->first();
-
-        if ($worker && $worker->status === 'active' && Hash::check($credentials['password'], $worker->password)) {
-            // Set session data
-            session(['userId' => $worker->id]);
-
-            // Redirect based on user role
-            if ($worker->role === 'admin') {
-                return redirect()->intended('/adminDash');
-            } elseif ($worker->role === 'superAdmin') {
-                return redirect()->intended('/superAdminDash');
-            } elseif ($worker->role === 'bhw-user') {
-                return redirect()->intended('/bhwDash');
-            } else {
-                return redirect('/');
-            }
-        } else {
-            \Log::error('Login attempt failed for email: ' . $credentials['email']);
-            return redirect()->back()->with('error', 'Invalid credentials. Please try again.');
-        }
-    }
 
     public function deleteAccount($id)
     {
@@ -86,13 +59,22 @@ class HealthWorkerController extends Controller
 
         return redirect()->back()->with('success', 'Data deleted successfully!');
     }
+   
     public function update(Request $request, $id)
     {
+        // Find the health worker by ID
         $worker = HealthWorker::findOrFail($id);
 
-        $worker->update($request->all());
+        // Remove the _token field from the request data
+        $data = $request->except('_token');
 
-        Log::info('Updated worker record with ID: ' . $id);
-        return redirect()->back()->with('success', ' successfully!');
+        // Update the health worker attributes with the remaining request data
+        $worker->update($data);
+
+        // Log the update
+        Log::info('Updated health worker record with ID: ' . $id);
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Data updated successfully!');
     }
 }

@@ -5,7 +5,7 @@
             <form method="POST" action="{{ route('HealthWorker.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addBHWAccountModalLabel">Add Admin Account</h5>
+                    <h5 class="modal-title" id="addBHWAccountModalLabel">Add BHW Account</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -34,7 +34,8 @@
                         <input type="text" class="form-control" id="middle_name" name="middle_name">
                     </div>
 
-                    <div >
+                    <div class="form-group">
+                        <label for="muni-dd">Municipality</label>
                         <select id="muni-dd" class="form-control custom-dropdown" name="municipality">
                             <option value="">Select Municipality</option>
                             @foreach($muni as $data)
@@ -43,12 +44,13 @@
                         </select>
                     </div>
 
-                    <div>
-                        <select id="brgy-dd" class="form-control" name="barangay"></select>
+                    <div class="form-group">
+                        <label for="barangay">Barangay</label>
+                        <select id="addbrgy-dropdown" class="form-control" name="barangay"></select>
                     </div>
 
-                    <div>
-                        <label for="sitio">Sitio:</label>
+                    <div class="form-group">
+                        <label for="sitio">Sitio</label>
                         <input type="text" class="form-control" id="sitio" name="sitio"><br><br>
                     </div>
 
@@ -74,15 +76,18 @@
                 $(document).ready(function () {
                     $('#muni-dd').on('change', function () {
                         var municipalityId = $(this).val();
+
                         if (municipalityId) {
                             $.ajax({
                                 url: '/getBrgy/' + municipalityId,
                                 type: 'GET',
                                 dataType: 'json',
                                 success: function (data) {
-                                    $('#brgy-dd').empty();
+                                    $('#addbrgy-dropdown').empty();
+
+                                    // Append options for other barangays
                                     $.each(data.barangays, function (key, value) {
-                                        $('#brgy-dd').append('<option value="' + value.name + '">' + value.name + '</option>');
+                                        $('#addbrgy-dropdown').append('<option value="' + value.name + '">' + value.name + '</option>');
                                     });
                                 },
                                 error: function (xhr, status, error) {
@@ -90,10 +95,11 @@
                                 }
                             });
                         } else {
-                            $('#brgy-dd').empty();
+                            $('#addbrgy-dropdown').empty();
                         }
                     });
                 });
+
             </script>
         </div>
     </div>

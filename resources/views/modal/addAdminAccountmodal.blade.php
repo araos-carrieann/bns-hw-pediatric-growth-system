@@ -45,8 +45,10 @@
                     </div>
 
                     <div >
-                        <label for="brgy-dd">Barangay</label>
-                        <select id="brgy-dd" class="form-control" name="barangay"></select>
+                        <label for="addbrgy-dropdown">Barangay</label>
+                        <select id="addbrgy-dropdown" class="form-control" name="barangay">
+                            <option class="dropdown-item" value="">Select Barangay</option>
+                        </select>
                     </div>
 
                     <div >
@@ -77,15 +79,18 @@
                 $(document).ready(function () {
                     $('#muni-dd').on('change', function () {
                         var municipalityId = $(this).val();
+
                         if (municipalityId) {
                             $.ajax({
                                 url: '/getBrgy/' + municipalityId,
                                 type: 'GET',
                                 dataType: 'json',
                                 success: function (data) {
-                                    $('#brgy-dd').empty();
+                                    $('#addbrgy-dropdown').empty();
+
+                                    // Append options for other barangays
                                     $.each(data.barangays, function (key, value) {
-                                        $('#brgy-dd').append('<option value="' + value.name + '">' + value.name + '</option>');
+                                        $('#addbrgy-dropdown').append('<option value="' + value.name + '">' + value.name + '</option>');
                                     });
                                 },
                                 error: function (xhr, status, error) {
@@ -93,10 +98,11 @@
                                 }
                             });
                         } else {
-                            $('#brgy-dd').empty();
+                            $('#addbrgy-dropdown').empty();
                         }
                     });
                 });
+
             </script>
         </div>
     </div>

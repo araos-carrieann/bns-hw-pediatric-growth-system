@@ -9,4 +9,8 @@ class Municipality extends Model
 {
     use HasFactory;
     
+    public function municipalities()
+    {
+        return $this->hasMany(Barangay::class);
+    }
 }

@@ -1,10 +1,12 @@
+
+@isset($bhwAccount)
 <div class="modal fade" id="editBHWAccountModal{{$bhwAccount->id}}" tabindex="-1" role="dialog"
     aria-labelledby="$bhwAccountAccountModalLabel{{$bhwAccount->id}}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('bhw-user.update', $bhwAccount->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PATCH')
+                
                 <div class="modal-header">
                     <h5 class="modal-title" id="$bhwAccountAccountModalLabel{{$bhwAccount->id}}">Edit Admin Account</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,7 +16,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="hidden" name="status" value="active">
-                        <input type="hidden" name="role" value="admin">
+                        <input type="hidden" name="role" value="bhw-user">
                     </div>
                     <div class="form-group">
                         <label for="profile_picture">Profile Picture</label>
@@ -43,17 +45,24 @@
                         <select class="form-control" id="muni-dd" name="muni-dd">
                             <option value="">Select Municipality</option>
                             @foreach($muni as $data)
-                            <option value="{{$data->id}}" @if($data->name == $adminAccount->municipality) selected
+                            <option value="{{$data->id}}" @if($data->name == $bhwAccount->municipality) selected
                                 @endif>
                                 {{$data->name}}
                             </option>
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="brgy-dd">Barangay</label>
-                        <select id="brgy-dd" class="form-control" name="brgy-dd">
+                        <label for="editbrgy-dd">Barangay</label>
+                        <select id="editbrgy-dd" class="form-control" name="editbrgy-dd">
+                            <option value="{{$bhwAccount->barangay}}" selected>{{$bhwAccount->barangay}}</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sitio">Sitio</label>
+                        <input type="text" class="form-control" id="sitio" name="sitio"
+                            value="{{ $bhwAccount->sitio }}">
                     </div>
                     <div class="form-group">
                         <label for="contact_number">Contact Number</label>
@@ -68,23 +77,20 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script>
                 $(document).ready(function () {
-                    var selectedBarangay = "{{ $bhwAccount->barangay }}";
-
                     $('#muni-dd').on('change', function () {
                         var municipalityId = $(this).val();
+
                         if (municipalityId) {
                             $.ajax({
                                 url: '/getBrgy/' + municipalityId,
                                 type: 'GET',
                                 dataType: 'json',
                                 success: function (data) {
-                                    $('#brgy-dd').empty();
+                                    $('#editbrgy-dd').empty();
+
+                                    // Append options for other barangays
                                     $.each(data.barangays, function (key, value) {
-                                        var option = $('<option></option>').attr('value', value.name).text(value.name);
-                                        if (value.name === selectedBarangay) {
-                                            option.prop('selected', true);
-                                        }
-                                        $('#brgy-dd').append(option);
+                                        $('#editbrgy-dd').append('<option value="' + value.name + '">' + value.name + '</option>');
                                     });
                                 },
                                 error: function (xhr, status, error) {
@@ -92,15 +98,15 @@
                                 }
                             });
                         } else {
-                            $('#brgy-dd').empty();
+                            $('#editbrgy-dd').empty();
                         }
                     });
-
-                    // Trigger change event on document ready to load barangays if a municipality is already selected
-                    $('#muni-dd').trigger('change');
                 });
 
             </script>
         </div>
     </div>
 </div>
+@else
+    <!-- Handle the case where $bhwAccount is not set -->
+@endisset

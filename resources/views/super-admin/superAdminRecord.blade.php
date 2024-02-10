@@ -67,7 +67,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ url('/bhwInputTable') }}">
+                    <a class="nav-link " href="{{ url('/superAdminAccount') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1"
@@ -90,11 +90,11 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Input</span>
+                        <span class="nav-link-text ms-1">Accounts</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url('/superAdminRecord') }}">
+                    <a class="nav-link active" href="{{ url('/superAdminRecordTable') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
@@ -129,146 +129,103 @@
             navbar-scroll="true">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
-                    <h6 class="font-weight-bolder mb-0">INPUT PAGE</h6>
+                    <h6 class="font-weight-bolder mb-0">RECORD PAGE</h6>
                 </nav>
 
 
-                <form class="ms-md-auto pe-md-3 d-flex align-items-center" action="{{ route('superAdmin.filter') }}" method="POST">
-                    @csrf
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <input name="start_date" id="start_date" type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <input name="end_date" id="end_date" type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <button type="submit" class="btn btn-outline-primary btn-sm mb-0 me-3">Apply Filter</button>
-                        </div>
-                    </div>
-                
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                     <div class="input-group">
-                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"
-                            href="{{ route('superAdmin.reset') }}">Reset</a>
-
+                        <input name="start_date" id="start_date" type="date" class="form-control">
                     </div>
                 </div>
-                </form>
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group">
+                        <input name="end_date" id="end_date" type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group">
+                        <button onclick="applyFilter()" class="btn btn-outline-primary btn-sm mb-0 me-3">Apply
+                            Filter</button>
+                    </div>
+                </div>
+
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group">
+                        <a href="{{ route('superAdmin.reset') }}"
+                            class="btn btn-outline-primary btn-sm mb-0 me-3">Reset</a>
+                    </div>
+                </div>
+
+
                 <ul class="navbar-nav  justify-content-end">
                     <li class="nav-item d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                             <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">Sign In</span>
+                            <span class="d-sm-inline d-none">Profile</span>
                         </a>
                     </li>
+
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                            <div class="sidenav-toggler-inner">
-                                <i class="sidenav-toggler-line"></i>
-                                <i class="sidenav-toggler-line"></i>
-                                <i class="sidenav-toggler-line"></i>
-                            </div>
+                          <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                          </div>
                         </a>
-                    </li>
+                      </li>
+                      
                     <li class="nav-item px-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0">
-                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                         </a>
                     </li>
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell cursor-pointer"></i>
+                            <i class="fas fa-ellipsis-h"></i>
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                             aria-labelledby="dropdownMenuButton">
                             <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                     <div class="d-flex py-1">
-                                        <div class="my-auto">
-                                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                                        <div class="my-auto avatar avatar-sm bg-gradient-dark  me-3 ">
+                                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="text-sm font-weight-normal mb-1">
-                                                <span class="font-weight-bold">New message</span> from
-                                                Laur
+                                                <span class="font-weight-bold">Settings</span>
                                             </h6>
-                                            <p class="text-xs text-secondary mb-0 ">
-                                                <i class="fa fa-clock me-1"></i>
-                                                13 minutes ago
-                                            </p>
+
                                         </div>
                                     </div>
                                 </a>
                             </li>
+
+
                             <li class="mb-2">
-                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <a class="dropdown-item border-radius-md" href="{{ route('authlogout') }}">
                                     <div class="d-flex py-1">
-                                        <div class="my-auto">
-                                            <img src="../assets/img/small-logos/logo-spotify.svg"
-                                                class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                                        <div class="my-auto avatar avatar-sm bg-gradient-dark  me-3">
+                                            <i class="fas fa-sign-out-alt"></i>
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="text-sm font-weight-normal mb-1">
-                                                <span class="font-weight-bold">New album</span> by
-                                                Travis Scott
+                                                <span class="font-weight-bold">Logout</span>
                                             </h6>
-                                            <p class="text-xs text-secondary mb-0 ">
-                                                <i class="fa fa-clock me-1"></i>
-                                                1 day
-                                            </p>
                                         </div>
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item border-radius-md" href="javascript:;">
-                                    <div class="d-flex py-1">
-                                        <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <title>credit-card</title>
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF"
-                                                        fill-rule="nonzero">
-                                                        <g transform="translate(1716.000000, 291.000000)">
-                                                            <g transform="translate(453.000000, 454.000000)">
-                                                                <path class="color-background"
-                                                                    d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                    opacity="0.593633743"></path>
-                                                                <path class="color-background"
-                                                                    d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                                </path>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="text-sm font-weight-normal mb-1">
-                                                Payment successfully completed
-                                            </h6>
-                                            <p class="text-xs text-secondary mb-0 ">
-                                                <i class="fa fa-clock me-1"></i>
-                                                2 days
-                                            </p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
+
+
                         </ul>
                     </li>
                 </ul>
-            </div>
-            </div>
-        </nav>
+        </div>
+    </div>
+</nav>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -277,17 +234,20 @@
                         <div class="card-header pb-0">
                             <h6>CHILDREN'S RECORD</h6>
                         </div>
-                        <div id="exportButtons" class="ms-md-auto pe-md-3 d-flex align-items-center">
-                            <div>
-                                <a class="btn btn-danger btn-sm mb-0 me-3"
-                                    href="{{ route('superAdmin.export', ['type' => 'pdf']) }}">Export as PDF</a>
+                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                            <div id="exportButtons" class="ms-md-auto pe-md-3 d-flex align-items-center">
 
+                                <div>
+                                    <a class="btn btn-danger btn-sm mb-0 me-3" href="javascript:void(0);"
+                                        onclick="handleExport('pdf')">Export as PDF</a>
+                                </div>
+                                <div>
+                                    <a class="btn btn-success btn-sm mb-0 me-3" href="javascript:void(0);"
+                                        onclick="handleExport('excel')">Export as Excel</a>
+                                </div>
                             </div>
-                            <div>
-                                <a class="btn btn-success btn-sm mb-0 me-3"
-                                    href="{{ route('superAdmin.export', ['type' => 'excel']) }}">Export as Excel</a>
 
-                            </div>
+
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
@@ -306,57 +266,10 @@
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @if(isset($filteredData))
-                                        @foreach($filteredData as $item)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $item->lastname }}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <h6 class="mb-0 text-sm">{{ $item->firstname }}</h6>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{ $item->middlename }}</h6>
-                                            </td>
-                                            <td class="align-middle">
-                                                <a href="javascript:;" class="badge badge-sm bg-gradient-secondary"
-                                                    onclick="showDetailsModal({{ json_encode(['personalInfo' => $item, 'healthRecords' => $item]) }})">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @else
-                                        @foreach($data as $item)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $item->lastname }}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <h6 class="mb-0 text-sm">{{ $item->firstname }}</h6>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{ $item->middlename }}</h6>
-                                            </td>
-                                            <td class="align-middle">
-                                                <a href="javascript:;" class="badge badge-sm bg-gradient-secondary"
-                                                    onclick="showDetailsModal({{ json_encode(['personalInfo' => $item, 'healthRecords' => $item]) }})">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
+                                    <tbody id="tableContainer">
+                                        @include('bhw-user.bhwRecordTable')
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -364,6 +277,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Modal for details -->
         <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel"
@@ -400,10 +314,7 @@
                         <p> <span id="contact_number"></span></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Edit</button>
-                        <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">Insert New Record</button>
+
                     </div>
                 </div>
             </div>
@@ -590,6 +501,60 @@
 
             // Show the modal
             $('#detailsModal').modal('show');
+        }
+    </script>
+    <script>
+        function handleExport(type) {
+            var startDate = document.getElementById('start_date').value;
+            var endDate = document.getElementById('end_date').value;
+
+            // Construct the URL for export based on the selected type and dates
+            var exportUrl;
+            if (type === 'pdf') {
+                exportUrl = "{{ route('superAdmin.exportPDF') }}";
+            } else if (type === 'excel') {
+                exportUrl = "{{ route('superAdmin.exportExcel') }}";
+            }
+
+            // Add start_date and end_date as query parameters
+            exportUrl += "?start_date=" + startDate + "&end_date=" + endDate;
+
+            // Redirect to the export route with selected type and dates
+            window.location.href = exportUrl;
+        }
+
+
+        function resetFilters() {
+            // Clear the values of the date input fields
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+
+            // Redirect to the reset route
+            window.location.href = "{{ route('bhw-child.reset') }}";
+        }
+    </script>
+    <script>
+        function applyFilter() {
+            // Get the selected dates
+            var startDate = document.getElementById('start_date').value;
+            var endDate = document.getElementById('end_date').value;
+
+            // Perform filtering logic using AJAX
+            $.ajax({
+                url: "{{ route('superAdmin.filter') }}",
+                type: "GET",
+                data: {
+                    start_date: startDate,
+                    end_date: endDate
+                },
+                success: function (data) {
+                    // Update the table content
+                    $('#tableContainer').html(data);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
         }
     </script>
 

@@ -41,7 +41,7 @@
             </div>
             <div class="form-content">
                 <h2>LOGIN</h2>
-                <form method="POST" action="{{ route('HealthWorker.login') }}">
+                <form method="POST" action="{{ route('check.login') }}">
                     @csrf <!-- Add CSRF token for Laravel forms -->
 
                     <div class="input-field">
